@@ -4,7 +4,7 @@ Questa procedura avvia Oracle Free in Docker, crea la tabella e verifica tutti g
 
 ## Prerequisiti
 
-- JDK 21 (`java -version`)
+- JDK 25 (`java -version`)
 - Maven 3.10 o successivo (`mvn -version`)
 - Docker Desktop con Docker Compose (`docker compose version`)
 - `curl` (su Windows è disponibile anche `curl.exe`)

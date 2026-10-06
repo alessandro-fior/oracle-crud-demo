@@ -12,7 +12,7 @@ This is a minimal Spring Boot application demonstrating CRUD operations on an **
 
 ## Prerequisites
 
-- Java 21
+- Java 25
 - Maven 3.10
 - Oracle 26ai Free Edition
 - Docker (optional: for running Oracle in a container)
