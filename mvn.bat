@@ -1,0 +1,1 @@
+mvn "-Dmaven.repo.local=target/m2-repository" spring-boot:run
