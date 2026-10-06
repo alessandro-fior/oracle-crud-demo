@@ -1,13 +1,22 @@
+version: "3.9"
 services:
   oracle:
-    image: gvenzl/oracle-free:23-slim
+    image: gvenzl/oracle-xe:21.3.0
+    container_name: oracle-demo
     environment:
-      ORACLE_PASSWORD: ${ORACLE_PASSWORD:-oracle}
+      - ORACLE_PASSWORD=demo_pass
+      - ORACLE_DB=ORCL
     ports:
-      - "${ORACLE_PORT:-1522}:1521"
-    healthcheck:
-      test: ["CMD", "/opt/oracle-healthcheck.sh"]
-      interval: 10s
-      timeout: 5s
-      retries: 20
-      start_period: 60s
+      - "1521:1521"
+  jpa:
+    build: ./JPA
+    container_name: jpa-demo
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-demo:1521:ORCL
+      - SPRING_DATASOURCE_USERNAME=demo_user
+      - SPRING_DATASOURCE_PASSWORD=demo_pass
+    ports:
+      - "8080:8080"
+    depends_on:
+      - oracle
+    restart: unless-stopped

@@ -6,7 +6,7 @@ This is a minimal Spring Boot application demonstrating CRUD operations on an **
 
 - `src/main/java/...`: Java source code.
 - `src/main/resources/application.properties`: DB configuration.
-- `sql/`: SQL scripts to set up the schema and tables.
+- `sql/`: SQL scripts (`01_schema.sql`, `02_tables.sql`) and database documentation ([sql/README.md](sql/README.md)).
 - `pom.xml`: Maven build file.
 
 
