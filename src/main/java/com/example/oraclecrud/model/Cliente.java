@@ -6,9 +6,10 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "cliente")
 public class Cliente {
-    @jakarta.persistence.Id
-@jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
     private String nome;
     private String cognome;
     private String email;

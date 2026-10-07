@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -23,8 +25,9 @@ class BulkInsertTest {
     @Test
     @Transactional
     void salvaUnClienteConJpa() {
+        String email = "test-jpa-" + UUID.randomUUID() + "@example.com";
         Cliente saved = jpaRepo.save(new Cliente(null, "Test", "Jpa",
-                "test-jpa@example.com", "0001"));
+                email, "0001"));
 
         assertThat(saved.getId()).isNotNull();
         assertThat(jpaRepo.findById(saved.getId())).isPresent();
