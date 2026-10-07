@@ -1,7 +1,14 @@
 package com.example.oraclecrud.model;
 
+import jakarta.persistence.*;
+
+
+@Entity
+@Table(name = "cliente")
 public class Cliente {
-    private Long id;
+    @jakarta.persistence.Id
+@jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+private Long id;
     private String nome;
     private String cognome;
     private String email;
