@@ -1,6 +1,6 @@
 # Come verificare il demo Oracle CRUD
 
-Questa procedura avvia Oracle Free in Docker, crea la tabella e verifica tutti gli endpoint REST.
+Questa procedura avvia l'istanza Oracle configurata in Docker Compose, crea/verifica lo schema e verifica gli endpoint REST.
 
 ## Prerequisiti
 
@@ -19,7 +19,7 @@ docker compose ps
 docker compose logs -f oracle
 ```
 
-Attendere che il container risulti `healthy`. Il database usa l'utente amministrativo `system`, password `oracle` e il servizio `FREEPDB1`. La porta 8080 è riservata all'applicazione Spring Boot e non è pubblicata dal container database.
+Attendere `DATABASE IS READY TO USE!`. La configurazione attuale usa Oracle XE nel container `oracle-demo`, porta host `1521`, servizio `XEPDB1`, utente amministrativo `SYSTEM` e password `demo_pass`. Per la guida Docker e il ripristino dello schema vedere `sql/DOCKER_XE_GUIDA.md` e `sql/00_verifica_ripristino.sql`.
 
 Se Docker segnala che la porta `1521` è già occupata, lascia attivo il servizio che la usa e scegli una porta host libera. Per esempio in PowerShell:
 
@@ -45,16 +45,16 @@ Gli script non sono pensati per essere passati insieme al comando `sqlplus sys/.
 
 ## 3. Configurare e avviare l'applicazione
 
-I valori predefiniti di `application.properties` corrispondono al compose e agli script (`CLIENTE` / `oracle`). Maven non carica automaticamente `.env`. Se usi la porta alternativa `1522`, imposta le variabili nella sessione PowerShell e avvia l'app così:
+La configurazione predefinita dell'applicazione usa `CLIENTE` / `Cliente1234!` su `localhost:1521/XEPDB1`. Maven non carica automaticamente `.env`. Se devi impostare esplicitamente le variabili nella sessione PowerShell, usa:
 
 ```powershell
 $env:SPRING_DATASOURCE_USERNAME = "CLIENTE"
-$env:SPRING_DATASOURCE_PASSWORD = "oracle"
-$env:SPRING_DATASOURCE_URL = "jdbc:oracle:thin:@localhost:1522/FREEPDB1"
+$env:SPRING_DATASOURCE_PASSWORD = "Cliente1234!"
+$env:SPRING_DATASOURCE_URL = "jdbc:oracle:thin:@localhost:1521/XEPDB1"
 mvn spring-boot:run
 ```
 
-Con la porta predefinita `1521`, puoi avviare direttamente `mvn spring-boot:run`. Verifica che `sql/01_schema.sql` sia stato eseguito come `SYSTEM` e `sql/02_tables.sql` come `CLIENTE`: l'applicazione deve autenticarsi come `CLIENTE`, proprietario della tabella.
+Con Oracle XE avviato e lo script `sql/00_verifica_ripristino.sql` eseguito come `SYSTEM`, avvia direttamente `mvn spring-boot:run`. L'applicazione si autentica come `CLIENTE`, proprietario della tabella.
 
 ## 4. Verificare il CRUD
 

@@ -2,6 +2,34 @@
 
 Questa cartella contiene gli script DDL/DCL e la documentazione completa di tutte le query SQL eseguite dall'applicazione Spring Boot sul database Oracle.
 
+## Avvio Docker e ripristino guidato (Oracle XE attuale)
+
+Per la procedura persistente completa con comandi per avviare, entrare, verificare e fermare il container, vedere [`DOCKER_XE_GUIDA.md`](DOCKER_XE_GUIDA.md).
+
+Aprire CMD nella cartella del progetto (`C:\projects\oracle-crud-demo`) ed eseguire:
+
+```cmd
+docker compose up -d oracle
+docker compose ps
+docker logs -f oracle-demo
+```
+
+Attendere nel log `DATABASE IS READY TO USE!`, quindi premere `Ctrl+C` per uscire dalla visualizzazione dei log (il container resta attivo). Entrare in SQL*Plus nel container:
+
+```cmd
+docker exec -it oracle-demo sqlplus system/demo_pass@XEPDB1
+```
+
+Al prompt `SQL>` eseguire lo script montato? Il file del progetto non è montato nel container, quindi usare invece il blocco PL/SQL sotto oppure aprire SQL*Plus dall'host con SQLcl. Il metodo semplice è DBeaver: collegarsi come `SYSTEM` a `localhost:1521/XEPDB1`, aprire `00_verifica_ripristino.sql` ed eseguirlo come script.
+
+Con SQLcl installato sull'host, dalla cartella progetto si può eseguire direttamente:
+
+```cmd
+sql system/demo_pass@localhost:1521/XEPDB1 @sql/00_verifica_ripristino.sql
+```
+
+Lo script `00_verifica_ripristino.sql` crea `CLIENTE` e `CLIENTE.CLIENTE` se mancanti e imposta la password dell'utente applicativo a `Cliente1234!`; non elimina dati già presenti. DBeaver e l'applicazione usano host `localhost`, porta `1521`, servizio `XEPDB1`.
+
 ---
 
 ## 1. Parametri di Connessione
